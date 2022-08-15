@@ -20,7 +20,7 @@ public class UserController {
     private UserServiceImp userService;
 
     @PostMapping("otp/send")
-    public void sendOtp(@RequestBody String email){
+    public void sendOtp(@RequestParam String email){
         otpService.saveOtp(email);
     }
     @GetMapping("user/register")
@@ -42,7 +42,7 @@ public class UserController {
         return userService.saveUser(user);
     }
     @GetMapping("user")
-    public User displayUser(@RequestBody String email){
+    public User displayUser(@RequestParam String email){
         return userService.getUser(email);
     }
 

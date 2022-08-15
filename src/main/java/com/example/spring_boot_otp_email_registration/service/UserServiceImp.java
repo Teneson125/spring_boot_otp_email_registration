@@ -15,6 +15,7 @@ import java.util.List;
 public class UserServiceImp implements UserService{
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private OtpServiceImp otpServiceImp;
 
     @Override
@@ -37,10 +38,10 @@ public class UserServiceImp implements UserService{
     }
 
     public String registerUser(UserRegister userRegister){
-        if(userRepository.findByEmail(userRegister.getEmail()) != null){
-            return "email already taken";
-        }
         if(otpServiceImp.checkOtp(userRegister.getEmail(),userRegister.getOtp())){
+            if(userRepository.findByEmail(userRegister.getEmail()) != null){
+                return "email already taken";
+            }
             User user = new User();
             user.setEmail(userRegister.getEmail());
             user.setUsername(userRegister.getUsername());
@@ -53,11 +54,11 @@ public class UserServiceImp implements UserService{
     }
     public HashMap<String, User> userLogin(UserLogin userLogin){
         HashMap<String, User> hashMap = new HashMap<>();
-        if(userRepository.findByEmail(userLogin.getEmail()) == null){
-            hashMap.put("user not register", null);
-            return hashMap;
-        }
         if(otpServiceImp.checkOtp(userLogin.getEmail(),userLogin.getOtp())){
+            if(userRepository.findByEmail(userLogin.getEmail()) == null){
+                hashMap.put("user not register", null);
+                return hashMap;
+            }
             hashMap.put("success", userRepository.findByEmail(userLogin.getEmail()));
             return hashMap;
         }

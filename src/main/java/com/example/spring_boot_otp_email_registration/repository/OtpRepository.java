@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OtpRepository extends JpaRepository<Otp, String > {
     Otp findByEmail(String email);
-    void deleteByEmail(String email);
+    void delete(Otp otp);
 }
