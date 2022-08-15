@@ -1,7 +1,7 @@
 package com.example.spring_boot_otp_email_registration.service;
 
 import com.example.spring_boot_otp_email_registration.model.Otp;
-import com.example.spring_boot_otp_email_registration.model.UserDetails;
+import com.example.spring_boot_otp_email_registration.model.UserRegister;
 import com.example.spring_boot_otp_email_registration.repository.OtpRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,8 +38,8 @@ public class OtpServiceImp implements OtpService{
         otp.setCreatedDateTime(LocalDateTime.now());
         otpRepository.save(otp);
     }
-    public boolean checkOtp(UserDetails userDetails){
-        Otp otp = otpRepository.findByEmail(userDetails.getEmail());
-        return userDetails.getOtp().equals(otp.getOtp());
+    public boolean checkOtp(String email, String otp){
+        Otp otpDetail = otpRepository.findByEmail(email);
+        return otp.equals(otpDetail.getOtp());
     }
 }

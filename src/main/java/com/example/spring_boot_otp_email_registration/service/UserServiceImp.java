@@ -1,12 +1,14 @@
 package com.example.spring_boot_otp_email_registration.service;
 
 import com.example.spring_boot_otp_email_registration.model.User;
-import com.example.spring_boot_otp_email_registration.model.UserDetails;
+import com.example.spring_boot_otp_email_registration.model.UserLogin;
+import com.example.spring_boot_otp_email_registration.model.UserRegister;
 import com.example.spring_boot_otp_email_registration.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -34,19 +36,32 @@ public class UserServiceImp implements UserService{
         return userRepository.findByEmail(email);
     }
 
-    public String registerUser(UserDetails userDetails){
-        if(userRepository.findByEmail(userDetails.getEmail()) != null){
+    public String registerUser(UserRegister userRegister){
+        if(userRepository.findByEmail(userRegister.getEmail()) != null){
             return "email already taken";
         }
-        if(otpServiceImp.checkOtp(userDetails)){
+        if(otpServiceImp.checkOtp(userRegister.getEmail(),userRegister.getOtp())){
             User user = new User();
-            user.setEmail(userDetails.getEmail());
-            user.setUsername(userDetails.getUsername());
-            user.setName(userDetails.getName());
+            user.setEmail(userRegister.getEmail());
+            user.setUsername(userRegister.getUsername());
+            user.setName(userRegister.getName());
             user.setCreatedDateTime(LocalDateTime.now());
             userRepository.save(user);
             return "success";
         }
         return "invalid otp";
+    }
+    public HashMap<String, User> userLogin(UserLogin userLogin){
+        HashMap<String, User> hashMap = new HashMap<>();
+        if(userRepository.findByEmail(userLogin.getEmail()) == null){
+            hashMap.put("user not register", null);
+            return hashMap;
+        }
+        if(otpServiceImp.checkOtp(userLogin.getEmail(),userLogin.getOtp())){
+            hashMap.put("success", userRepository.findByEmail(userLogin.getEmail()));
+            return hashMap;
+        }
+        hashMap.put("otp invalid or expired", null);
+        return hashMap;
     }
 }

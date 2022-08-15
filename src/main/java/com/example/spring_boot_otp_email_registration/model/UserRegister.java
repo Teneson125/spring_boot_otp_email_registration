@@ -1,6 +1,6 @@
 package com.example.spring_boot_otp_email_registration.model;
 
-public class UserDetails {
+public class UserRegister {
     private String email;
     private String username;
     private String name;

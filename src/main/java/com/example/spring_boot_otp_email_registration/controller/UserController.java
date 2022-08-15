@@ -1,14 +1,14 @@
 package com.example.spring_boot_otp_email_registration.controller;
 
 import com.example.spring_boot_otp_email_registration.model.User;
-import com.example.spring_boot_otp_email_registration.model.UserDetails;
-import com.example.spring_boot_otp_email_registration.service.OtpService;
+import com.example.spring_boot_otp_email_registration.model.UserLogin;
+import com.example.spring_boot_otp_email_registration.model.UserRegister;
 import com.example.spring_boot_otp_email_registration.service.OtpServiceImp;
-import com.example.spring_boot_otp_email_registration.service.UserService;
 import com.example.spring_boot_otp_email_registration.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -24,10 +24,13 @@ public class UserController {
         otpService.saveOtp(email);
     }
     @GetMapping("user/register")
-    public String registerUser(@RequestBody UserDetails userDetails){
-        return userService.registerUser(userDetails);
+    public String userRegister(@RequestBody UserRegister userRegister){
+        return userService.registerUser(userRegister);
     }
-
+    @GetMapping("user/login")
+    public HashMap<String, User> userLogin(@RequestBody UserLogin userLogin){
+        return userService.userLogin(userLogin);
+    }
 
     //for admin use
     @GetMapping("/users")
