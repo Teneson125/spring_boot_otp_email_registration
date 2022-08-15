@@ -3,12 +3,13 @@ package com.example.spring_boot_otp_email_registration.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Time;
 import java.util.Date;
 
 @Entity
 public class Otp {
-
+    @Id
     private String email;
     private String otp;
     @JsonFormat(pattern = "DD-MM-YYYY")
