@@ -1,30 +1,23 @@
 package com.example.spring_boot_otp_email_registration.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class Otp {
     @Id
     private String email;
     private String otp;
-    @JsonFormat(pattern = "DD-MM-YYYY")
-    private Date date;
-    @JsonFormat(pattern = "HH:MM:SS")
-    private Time time;
+    private LocalDateTime createdDateTime;
 
     public Otp() {
     }
 
-    public Otp(String email, String otp, Date date, Time time) {
+    public Otp(String email, String otp, LocalDateTime createdDateTime) {
         this.email = email;
         this.otp = otp;
-        this.date = date;
-        this.time = time;
+        this.createdDateTime = createdDateTime;
     }
 
     public String getEmail() {
@@ -43,19 +36,11 @@ public class Otp {
         this.otp = otp;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Time getTime() {
-        return time;
-    }
-
-    public void setTime(Time time) {
-        this.time = time;
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
     }
 }

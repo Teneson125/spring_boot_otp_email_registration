@@ -1,13 +1,13 @@
 package com.example.spring_boot_otp_email_registration.controller;
 
 import com.example.spring_boot_otp_email_registration.model.User;
+import com.example.spring_boot_otp_email_registration.model.UserDetails;
 import com.example.spring_boot_otp_email_registration.service.OtpService;
+import com.example.spring_boot_otp_email_registration.service.OtpServiceImp;
 import com.example.spring_boot_otp_email_registration.service.UserService;
+import com.example.spring_boot_otp_email_registration.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,10 +15,21 @@ import java.util.List;
 @RequestMapping("/api")
 public class UserController {
     @Autowired
-    private OtpService otpService;
+    private OtpServiceImp otpService;
     @Autowired
-    private UserService userService;
+    private UserServiceImp userService;
 
+    @PostMapping("otp/send")
+    public void sendOtp(@RequestBody String email){
+        otpService.saveOtp(email);
+    }
+    @GetMapping("user/register")
+    public String registerUser(@RequestBody UserDetails userDetails){
+        return userService.registerUser(userDetails);
+    }
+
+
+    //for admin use
     @GetMapping("/users")
     public List<User> displayUsers(){
         return userService.getUsers();
@@ -31,4 +42,5 @@ public class UserController {
     public User displayUser(@RequestBody String email){
         return userService.getUser(email);
     }
+
 }
